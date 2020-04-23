@@ -1,6 +1,9 @@
 {
-  "name": "react-app",
+  "name": "my_rm_edit",
+  "author": "iambigchen",
+  "description": "my rm edit",
   "version": "0.1.0",
+  "main": "main.js",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -8,11 +11,20 @@
     "@testing-library/user-event": "^7.1.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "react-simplemde-editor": "^4.1.0"
   },
+  "repository": "https://github.com/iambigchen/clouddoc",
   "scripts": {
+    "electron": "electron .",
+    "dev": "concurrently \"wait-on http://127.0.0.1:3000 && electron .\" \"cross-env BROWSER=none npm run start\"",
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "buildMain": "webpack",
+    "pack": "electron-builder",
+    "prepack": "npm run build && npm run buildMain",
+    "release": "cross-env GH_TOKEN=227a0117bc070274526dfe67a9f8a003b145874f electron-builder",
+    "prerelease": "npm run build && npm run buildMain",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -30,5 +42,85 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "build": {
+    "appId": "com.iambigchen.myapp",
+    "productName": "iambigchenRMEdit",
+    "copyright": "Copyright © 2019 ${author}",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*",
+      "settings/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "extraMetadata": {
+      "main": "./build/main.js"
+    },
+    "publish": [
+      "github"
+    ],
+    "extends": null,
+    "mac": {
+      "category": "public.app-category.productivity",
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    },
+    "dmg": {
+      "background": "assets/appdmg.png",
+      "icon": "assets/icon.icns",
+      "iconSize": 100,
+      "contents": [
+        {
+          "x": 380,
+          "y": 280,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 110,
+          "y": 280,
+          "type": "file"
+        }
+      ],
+      "window": {
+        "width": 500,
+        "height": 500
+      }
+    },
+    "win": {
+      "target": [
+        "msi",
+        "nsis"
+      ],
+      "icon": "assets/icon.ico",
+      "artifactName": "${productName}-Web-Setup-${version}.${ext}",
+      "publisherName": "iambigchen"
+    },
+    "nsis": {
+      "allowToChangeInstallationDirectory": true,
+      "oneClick": false,
+      "perMachine": false
+    }
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.28",
+    "@fortawesome/free-brands-svg-icons": "^5.13.0",
+    "@fortawesome/free-solid-svg-icons": "^5.13.0",
+    "@fortawesome/react-fontawesome": "^0.1.9",
+    "bootstrap": "^4.4.1",
+    "classnames": "^2.2.6",
+    "concurrently": "^5.1.0",
+    "cross-env": "^7.0.2",
+    "electron": "^8.2.3",
+    "electron-builder": "^22.4.1",
+    "electron-is-dev": "^1.2.0",
+    "electron-store": "^5.1.1",
+    "node-sass": "^4.13.1",
+    "nodemon": "^2.0.3",
+    "uuid": "^7.0.3",
+    "wait-on": "^4.0.2",
+    "webpack-cli": "^3.3.11"
   }
 }
